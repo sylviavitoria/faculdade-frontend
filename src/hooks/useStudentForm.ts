@@ -1,4 +1,5 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
+// import { studentService } from '../service/StudentService';
 
 interface StudentFormData {
   name: string;
@@ -32,23 +33,23 @@ const useStudentForm = () => {
     const newErrors: FormErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = 'Nome é obrigatório';
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = 'E-mail é obrigatório';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Invalid email format';
+      newErrors.email = 'Formato de e-mail inválido';
     }
 
     if (!formData.registrationNumber.trim()) {
-      newErrors.registrationNumber = 'Registration number is required';
+      newErrors.registrationNumber = 'Número de matrícula é obrigatório';
     }
 
     if (!formData.password.trim()) {
-      newErrors.password = 'Password is required';
+      newErrors.password = 'Senha é obrigatória';
     } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = 'A senha deve ter pelo menos 6 caracteres';
     }
 
     setErrors(newErrors);
@@ -83,11 +84,10 @@ const useStudentForm = () => {
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      console.log('Student created successfully:', formData);
+      console.log('Aluno criado com sucesso:', formData);
       
       setIsSubmitted(true);
-      
-      // Reset form after success
+
       setTimeout(() => {
         setFormData({
           name: '',
@@ -100,7 +100,9 @@ const useStudentForm = () => {
 
     } catch (error) {
       setErrors({
-        form: error instanceof Error ? error.message : 'Error creating student. Please try again.'
+        form: error instanceof Error
+          ? error.message
+          : 'Erro ao criar aluno. Por favor, tente novamente.'
       });
     } finally {
       setIsSubmitting(false);
