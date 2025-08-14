@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '../hooks/useAuth';
 import './style/Header.css';
 
 interface HeaderProps {
@@ -7,6 +8,8 @@ interface HeaderProps {
 
 const Header = ({ onMenuToggle }: HeaderProps) => {
   const [isMobile, setIsMobile] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -17,6 +20,10 @@ const Header = ({ onMenuToggle }: HeaderProps) => {
     window.addEventListener('resize', checkScreenSize);
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <header>
@@ -36,10 +43,29 @@ const Header = ({ onMenuToggle }: HeaderProps) => {
           </div>
         </div>
         <div className="header-actions">
-          <button className="btn-user">
-            <i className="fas fa-user"></i>
-            <span>Admin</span>
-          </button>
+          <div className="user-menu">
+            <button 
+              className="btn-user"
+              onClick={() => setShowUserMenu(!showUserMenu)}
+            >
+              <i className="fas fa-user"></i>
+              <span>{user?.nome || 'Usuário'}</span>
+              <i className={`fas fa-chevron-${showUserMenu ? 'up' : 'down'}`}></i>
+            </button>
+            
+            {showUserMenu && (
+              <div className="user-dropdown">
+                <div className="user-info">
+                  <p><strong>{user?.nome}</strong></p>
+                  <p>{user?.email}</p>
+                </div>
+                <button onClick={handleLogout}>
+                  <i className="fas fa-sign-out-alt"></i>
+                  Sair
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>
