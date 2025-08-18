@@ -44,8 +44,8 @@ class AuthService {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${token}` },
         });
-      } catch {
-        // ✅ Ignora erros de logout no servidor
+      } catch (logoutError) {
+        void logoutError;
       }
     }
     this.clearTokens();

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import CreateStudent from '../components/CreateStudent';
 import StudentList from '../components/StudentList';
+import StudentProfile from '../components/StudentProfile';
+import StudentSearchById from '../components/StudentSearchById';
 import RoleBasedAccess from '../components/RoleBasedAccess';
 import { useAuth } from '../hooks/useAuth';
 import { StudentResponse } from '../types/Student';
@@ -8,7 +10,7 @@ import './Student.css';
 
 const Student = () => {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState<'list' | 'create'>('list');
+  const [activeTab, setActiveTab] = useState<'list' | 'create' | 'search'>('list');
   const [editingStudent, setEditingStudent] = useState<StudentResponse | null>(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
@@ -23,18 +25,26 @@ const Student = () => {
     setEditingStudent(null);
   };
 
+  if (user?.role === 'ROLE_ALUNO') {
+    return (
+      <div className="content">
+        <StudentProfile />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="content">
         <RoleBasedAccess 
-          allowedRoles={['ROLE_ADMIN']}
+          allowedRoles={['ROLE_ADMIN', 'ROLE_PROFESSOR']}
           fallback={
             <div className="access-denied">
               <div className="access-denied-card">
                 <i className="fas fa-exclamation-triangle"></i>
                 <h3>Acesso Restrito</h3>
                 <p>Você não tem permissão para acessar esta funcionalidade.</p>
-                <p>Apenas administradores podem gerenciar alunos.</p>
+                <p>Apenas administradores e professores podem gerenciar alunos.</p>
                 <div className="user-info-card">
                   <p><strong>Usuário:</strong> {user?.nome}</p>
                   <p><strong>Email:</strong> {user?.email}</p>
@@ -47,7 +57,12 @@ const Student = () => {
           <div className="student-management">
             <div className="page-header">
               <h1>Gerenciamento de Alunos</h1>
-              <p>Cadastre e gerencie alunos do sistema</p>
+              <p>
+                {user?.role === 'ROLE_ADMIN' 
+                  ? 'Cadastre e gerencie alunos do sistema' 
+                  : 'Visualize informações dos alunos'
+                }
+              </p>
             </div>
 
             <div className="tab-navigation">
@@ -62,23 +77,39 @@ const Student = () => {
                 Lista de Alunos
               </button>
               <button 
-                className={`tab-btn ${activeTab === 'create' ? 'active' : ''}`}
-                onClick={() => setActiveTab('create')}
+                className={`tab-btn ${activeTab === 'search' ? 'active' : ''}`}
+                onClick={() => {
+                  setActiveTab('search');
+                  setEditingStudent(null);
+                }}
               >
-                <i className="fas fa-plus"></i>
-                {editingStudent ? 'Editar Aluno' : 'Cadastrar Aluno'}
+                <i className="fas fa-search"></i>
+                Buscar por ID
               </button>
+              {user?.role === 'ROLE_ADMIN' && (
+                <button 
+                  className={`tab-btn ${activeTab === 'create' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('create')}
+                >
+                  <i className="fas fa-plus"></i>
+                  {editingStudent ? 'Editar Aluno' : 'Cadastrar Aluno'}
+                </button>
+              )}
             </div>
 
             <div className="tab-content">
               {activeTab === 'list' && (
                 <StudentList 
-                  onEdit={handleEdit}
+                  onEdit={user?.role === 'ROLE_ADMIN' ? handleEdit : undefined}
                   refreshTrigger={refreshTrigger}
                 />
               )}
               
-              {activeTab === 'create' && (
+              {activeTab === 'search' && (
+                <StudentSearchById />
+              )}
+              
+              {activeTab === 'create' && user?.role === 'ROLE_ADMIN' && (
                 <CreateStudent 
                   editingStudent={editingStudent}
                   onStudentSaved={handleStudentCreated}
