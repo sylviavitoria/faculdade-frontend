@@ -1,28 +1,28 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
-// import { studentService } from '../service/StudentService';
+import { studentService } from '../service/StudentService';
 
 interface StudentFormData {
-  name: string;
+  nome: string;
   email: string;
-  registrationNumber: string;
-  password: string;
+  matricula: string;
+  senha: string;
   id?: number;
 }
 
 interface FormErrors {
-  name?: string;
+  nome?: string;
   email?: string;
-  registrationNumber?: string;
-  password?: string;
+  matricula?: string;
+  senha?: string;
   form?: string;
 }
 
 const useStudentForm = () => {
   const [formData, setFormData] = useState<StudentFormData>({
-    name: '',
+    nome: '',
     email: '',
-    registrationNumber: '',
-    password: ''
+    matricula: '',
+    senha: ''
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
@@ -32,8 +32,8 @@ const useStudentForm = () => {
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
-    if (!formData.name.trim()) {
-      newErrors.name = 'Nome é obrigatório';
+    if (!formData.nome.trim()) {
+      newErrors.nome = 'Nome é obrigatório';
     }
 
     if (!formData.email.trim()) {
@@ -42,14 +42,14 @@ const useStudentForm = () => {
       newErrors.email = 'Formato de e-mail inválido';
     }
 
-    if (!formData.registrationNumber.trim()) {
-      newErrors.registrationNumber = 'Número de matrícula é obrigatório';
+    if (!formData.matricula.trim()) {
+      newErrors.matricula = 'Número de matrícula é obrigatório';
     }
 
-    if (!formData.password.trim()) {
-      newErrors.password = 'Senha é obrigatória';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'A senha deve ter pelo menos 6 caracteres';
+    if (!formData.senha.trim()) {
+      newErrors.senha = 'Senha é obrigatória';
+    } else if (formData.senha.length < 3) {
+      newErrors.senha = 'A senha deve ter pelo menos 3 caracteres';
     }
 
     setErrors(newErrors);
@@ -82,18 +82,23 @@ const useStudentForm = () => {
     setErrors({});
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      console.log('Aluno criado com sucesso:', formData);
+      let result;
+      if (formData.id) {
+        result = await studentService.update(formData.id, formData);
+        console.log('Aluno atualizado com sucesso:', result);
+      } else {
+        result = await studentService.create(formData);
+        console.log('Aluno criado com sucesso:', result);
+      }
       
       setIsSubmitted(true);
 
       setTimeout(() => {
         setFormData({
-          name: '',
+          nome: '',
           email: '',
-          registrationNumber: '',
-          password: ''
+          matricula: '',
+          senha: ''
         });
         setIsSubmitted(false);
       }, 3000);
@@ -102,7 +107,7 @@ const useStudentForm = () => {
       setErrors({
         form: error instanceof Error
           ? error.message
-          : 'Erro ao criar aluno. Por favor, tente novamente.'
+          : 'Erro ao salvar aluno. Por favor, tente novamente.'
       });
     } finally {
       setIsSubmitting(false);
@@ -111,6 +116,7 @@ const useStudentForm = () => {
 
   return {
     formData,
+    setFormData,
     errors,
     isSubmitting,
     isSubmitted,
