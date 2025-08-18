@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { studentService } from '../service/StudentService';
 import { StudentResponse, PageResponse } from '../types/Student';
+import { useAuth } from '../hooks/useAuth';
 import './style/Tables.css';
 
 interface StudentListProps {
@@ -9,6 +10,7 @@ interface StudentListProps {
 }
 
 const StudentList = ({ onEdit, refreshTrigger }: StudentListProps) => {
+  const { user } = useAuth();
   const [students, setStudents] = useState<StudentResponse[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>('');
@@ -68,6 +70,23 @@ const StudentList = ({ onEdit, refreshTrigger }: StudentListProps) => {
         <p>Total: {totalElements} alunos cadastrados</p>
       </div>
 
+      {user?.role === 'ROLE_PROFESSOR' && (
+        <div className="info-note" style={{ 
+          background: 'var(--info-bg, #e3f2fd)', 
+          border: '1px solid var(--info, #2196f3)', 
+          padding: '0.75rem 1rem', 
+          borderRadius: '6px', 
+          marginBottom: '1rem',
+          display: 'flex',
+          alignItems: 'center'
+        }}>
+          <i className="fas fa-info-circle" style={{ color: 'var(--info, #2196f3)', marginRight: '0.5rem' }}></i>
+          <span style={{ color: 'var(--info-dark, #1976d2)' }}>
+            Visualizando informações dos alunos. Como professor, você pode consultar os dados para acompanhamento acadêmico.
+          </span>
+        </div>
+      )}
+
       {error && (
         <div className="error-message">
           {error}
@@ -88,7 +107,7 @@ const StudentList = ({ onEdit, refreshTrigger }: StudentListProps) => {
                   <th>Nome</th>
                   <th>Email</th>
                   <th>Matrícula</th>
-                  <th>Ações</th>
+                  {user?.role === 'ROLE_ADMIN' && <th>Ações</th>}
                 </tr>
               </thead>
               <tbody>
@@ -98,26 +117,28 @@ const StudentList = ({ onEdit, refreshTrigger }: StudentListProps) => {
                     <td>{student.nome}</td>
                     <td>{student.email}</td>
                     <td>{student.matricula}</td>
-                    <td>
-                      <div className="action-buttons">
-                        {onEdit && (
+                    {user?.role === 'ROLE_ADMIN' && (
+                      <td>
+                        <div className="action-buttons">
+                          {onEdit && (
+                            <button
+                              className="btn-edit"
+                              onClick={() => onEdit(student)}
+                              title="Editar aluno"
+                            >
+                              <i className="fas fa-edit"></i>
+                            </button>
+                          )}
                           <button
-                            className="btn-edit"
-                            onClick={() => onEdit(student)}
-                            title="Editar aluno"
+                            className="btn-delete"
+                            onClick={() => handleDelete(student.id, student.nome)}
+                            title="Deletar aluno"
                           >
-                            <i className="fas fa-edit"></i>
+                            <i className="fas fa-trash"></i>
                           </button>
-                        )}
-                        <button
-                          className="btn-delete"
-                          onClick={() => handleDelete(student.id, student.nome)}
-                          title="Deletar aluno"
-                        >
-                          <i className="fas fa-trash"></i>
-                        </button>
-                      </div>
-                    </td>
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
