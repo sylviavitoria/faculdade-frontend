@@ -1,16 +1,16 @@
 export interface Student {
-  name: string;
+  nome: string;
   email: string;
-  registrationNumber: string;
-  password: string;
+  matricula: string;
+  senha: string;
   id?: number;
 }
 
 export interface StudentResponse {
   id: number;
-  name: string;
+  nome: string;
   email: string;
-  registrationNumber: string;
+  matricula: string;
 }
 
 export interface PageResponse<T> {
