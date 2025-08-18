@@ -58,6 +58,10 @@ const Header = ({ onMenuToggle }: HeaderProps) => {
                 <div className="user-info">
                   <p><strong>{user?.nome}</strong></p>
                   <p>{user?.email}</p>
+                  <p className="role-info">
+                    <span>Role: </span>
+                    <span className="role-badge">{user?.role?.replace('ROLE_', '') || 'N/A'}</span>
+                  </p>
                 </div>
                 <button onClick={handleLogout}>
                   <i className="fas fa-sign-out-alt"></i>
