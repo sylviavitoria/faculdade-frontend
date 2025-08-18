@@ -2,19 +2,19 @@ import type { FormEvent } from 'react';
 import GenericForm from './GenericForm';
 
 interface FormErrors {
-  name?: string;
+  nome?: string;
   email?: string;
-  registrationNumber?: string;
-  password?: string;
+  matricula?: string;
+  senha?: string;
   form?: string;
 }
 
 interface StudentFormProps {
   formData: {
-    name: string;
+    nome: string;
     email: string;
-    registrationNumber: string;
-    password: string;
+    matricula: string;
+    senha: string;
     id?: number;
   };
   errors: FormErrors;
@@ -34,22 +34,22 @@ const StudentForm = ({
 }: StudentFormProps) => {
   const fields = [
     {
-      name: 'name',
+      name: 'nome',
       label: 'Nome',
       type: 'text' as const
     },
     {
       name: 'email',
       label: 'Email',
+      type: 'email' as const
+    },
+    {
+      name: 'matricula',
+      label: 'Matrícula',
       type: 'text' as const
     },
     {
-      name: 'registrationNumber',
-      label: 'Número de Registro',
-      type: 'text' as const
-    },
-    {
-      name: 'password',
+      name: 'senha',
       label: 'Senha',
       type: 'password' as const
     }
