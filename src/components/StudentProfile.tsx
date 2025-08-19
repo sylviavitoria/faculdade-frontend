@@ -38,7 +38,7 @@ const StudentProfile = () => {
               <i className="fas fa-user-graduate"></i>
             </div>
             <div className="profile-info">
-              <h2>{studentData.nome}</h2>
+              <h2 data-testid="student-name">{studentData.nome}</h2>
               <p className="profile-role">Aluno</p>
             </div>
           </div>
@@ -49,7 +49,7 @@ const StudentProfile = () => {
                 <i className="fas fa-id-card"></i>
                 Matrícula
               </label>
-              <span>{studentData.matricula}</span>
+              <span data-testid="student-matricula">{studentData.matricula}</span>
             </div>
 
             <div className="detail-group">
@@ -57,7 +57,7 @@ const StudentProfile = () => {
                 <i className="fas fa-envelope"></i>
                 E-mail
               </label>
-              <span>{studentData.email}</span>
+              <span data-testid="student-email">{studentData.email}</span>
             </div>
 
             <div className="detail-group">
@@ -65,7 +65,7 @@ const StudentProfile = () => {
                 <i className="fas fa-user"></i>
                 Nome Completo
               </label>
-              <span>{studentData.nome}</span>
+              <span data-testid="student-fullname">{studentData.nome}</span>
             </div>
 
             <div className="detail-group">
@@ -73,7 +73,7 @@ const StudentProfile = () => {
                 <i className="fas fa-calendar"></i>
                 ID do Aluno
               </label>
-              <span>#{studentData.id}</span>
+              <span data-testid="student-id">#{studentData.id}</span>
             </div>
           </div>
 

@@ -6,13 +6,15 @@ interface SearchByIdProps {
   isLoading: boolean;
   placeholder?: string;
   label?: string;
+  'data-testid'?: string;
 }
 
 const SearchById: React.FC<SearchByIdProps> = ({
   onSearch,
   isLoading,
   placeholder = "Digite o ID para buscar",
-  label = "Buscar por ID"
+  label = "Buscar por ID",
+  'data-testid': testId
 }) => {
   const [searchId, setSearchId] = useState<string>('');
 
@@ -45,6 +47,7 @@ const SearchById: React.FC<SearchByIdProps> = ({
               placeholder={placeholder}
               disabled={isLoading}
               className="form-input"
+              data-testid={testId}
             />
             <button
               type="submit"

@@ -12,12 +12,12 @@ interface DisciplineSearchResultProps {
 const DisciplineSearchResult: React.FC<DisciplineSearchResultProps> = ({ discipline, error, onClear }) => {
   if (error) {
     return (
-      <div className="search-result error-result">
+      <div className="search-result error-result" data-testid="discipline-error">
         <div className="error-card">
           <i className="fas fa-exclamation-circle"></i>
           <h3>Erro na busca</h3>
           <p>{error}</p>
-          <button onClick={onClear} className="btn btn-secondary">
+          <button onClick={onClear} className="btn btn-secondary" data-testid="discipline-clear-button">
             <i className="fas fa-times"></i>
             Limpar
           </button>
@@ -29,14 +29,14 @@ const DisciplineSearchResult: React.FC<DisciplineSearchResultProps> = ({ discipl
   if (!discipline) return null;
 
   return (
-    <div className="search-result success-result">
+    <div className="search-result success-result" data-testid="discipline-result">
       <div className="result-card">
         <div className="result-header">
           <h3>
             <i className="fas fa-book"></i>
             Disciplina Encontrada
           </h3>
-          <button onClick={onClear} className="btn btn-link clear-btn">
+          <button onClick={onClear} className="btn btn-link clear-btn" data-testid="discipline-clear-button">
             <i className="fas fa-times"></i>
           </button>
         </div>
@@ -101,15 +101,12 @@ const DisciplineSearchById: React.FC = () => {
           isLoading={loading}
           placeholder="Digite o ID da disciplina"
           label="ID da Disciplina"
+          data-testid="discipline-search-input"
         />
       </div>
 
       <div className="result-section">
-        <DisciplineSearchResult
-          discipline={discipline}
-          error={error}
-          onClear={clear}
-        />
+        <DisciplineSearchResult discipline={discipline} error={error} onClear={clear} />
       </div>
     </div>
   );

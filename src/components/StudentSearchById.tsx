@@ -13,12 +13,12 @@ interface StudentSearchResultProps {
 const StudentSearchResult: React.FC<StudentSearchResultProps> = ({ student, error, onClear }) => {
   if (error) {
     return (
-      <div className="search-result error-result">
+      <div className="search-result error-result" data-testid="search-error">
         <div className="error-card">
           <i className="fas fa-exclamation-circle"></i>
           <h3>Erro na busca</h3>
           <p>{error}</p>
-          <button onClick={onClear} className="btn btn-secondary">
+          <button onClick={onClear} className="btn btn-secondary" data-testid="clear-error-btn">
             <i className="fas fa-times"></i>
             Limpar
           </button>
@@ -30,14 +30,14 @@ const StudentSearchResult: React.FC<StudentSearchResultProps> = ({ student, erro
   if (!student) return null;
 
   return (
-    <div className="search-result success-result">
+    <div className="search-result success-result" data-testid="search-success">
       <div className="result-card">
         <div className="result-header">
           <h3>
             <i className="fas fa-user-graduate"></i>
             Estudante Encontrado
           </h3>
-          <button onClick={onClear} className="btn btn-link clear-btn">
+          <button onClick={onClear} className="btn btn-link clear-btn" data-testid="clear-success-btn">
             <i className="fas fa-times"></i>
           </button>
         </div>
@@ -48,7 +48,7 @@ const StudentSearchResult: React.FC<StudentSearchResultProps> = ({ student, erro
               <i className="fas fa-id-badge"></i>
               ID:
             </label>
-            <span>{student.id}</span>
+            <span data-testid="student-id">{student.id}</span>
           </div>
           
           <div className="detail-group">
@@ -56,7 +56,7 @@ const StudentSearchResult: React.FC<StudentSearchResultProps> = ({ student, erro
               <i className="fas fa-user"></i>
               Nome:
             </label>
-            <span>{student.nome}</span>
+            <span data-testid="student-name">{student.nome}</span>
           </div>
           
           <div className="detail-group">
@@ -64,7 +64,7 @@ const StudentSearchResult: React.FC<StudentSearchResultProps> = ({ student, erro
               <i className="fas fa-envelope"></i>
               Email:
             </label>
-            <span>{student.email}</span>
+            <span data-testid="student-email">{student.email}</span>
           </div>
           
           <div className="detail-group">
@@ -72,7 +72,7 @@ const StudentSearchResult: React.FC<StudentSearchResultProps> = ({ student, erro
               <i className="fas fa-id-card"></i>
               Matrícula:
             </label>
-            <span>{student.matricula}</span>
+            <span data-testid="student-matricula">{student.matricula}</span>
           </div>
         </div>
       </div>
@@ -114,6 +114,7 @@ const StudentSearchById: React.FC = () => {
           isLoading={loading}
           placeholder="Ex: 1, 2, 3..."
           label="ID do Estudante"
+          data-testid="search-by-id-input"
         />
       </div>
 
