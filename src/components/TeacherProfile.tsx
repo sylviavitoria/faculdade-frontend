@@ -1,29 +1,9 @@
-import { useState, useEffect } from 'react';
-import { teacherService } from '../service/TeacherService';
+import React from 'react';
 import { TeacherResponse } from '../types/Teacher';
+import useProfile from '../hooks/useProfile';
 
 const TeacherProfile = () => {
-  const [teacherData, setTeacherData] = useState<TeacherResponse | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchTeacherProfile = async () => {
-      try {
-        setLoading(true);
-        const data = await teacherService.getMe();
-        setTeacherData(data);
-        setError(null);
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Erro ao carregar dados do perfil';
-        setError(errorMessage);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTeacherProfile();
-  }, []);
+  const { profileData, loading, error } = useProfile();
 
   if (loading) {
     return (
@@ -41,6 +21,8 @@ const TeacherProfile = () => {
       </div>
     );
   }
+
+  const teacherData = profileData as TeacherResponse;
 
   return (
     <div className="teacher-profile">

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { DisciplineResponse } from '../types/Discipline';
-import { disciplineService } from '../service/DisciplineService';
+import useDisciplineSearch from '../hooks/useDisciplineSearch';
 import SearchById from './SearchById';
 
 interface DisciplineSearchResultProps {
@@ -90,41 +90,15 @@ const DisciplineSearchResult: React.FC<DisciplineSearchResultProps> = ({ discipl
 };
 
 const DisciplineSearchById: React.FC = () => {
-  const [discipline, setDiscipline] = useState<DisciplineResponse | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSearch = async (id: number) => {
-    console.log('Buscando disciplina com ID:', id);
-    setIsLoading(true);
-    setError(null);
-    setDiscipline(null);
-
-    try {
-      const result = await disciplineService.getById(id);
-      console.log('Disciplina encontrada:', result);
-      setDiscipline(result);
-    } catch (err) {
-      console.error('Erro ao buscar disciplina:', err);
-      const errorMessage = err instanceof Error ? err.message : 'Disciplina não encontrada';
-      setError(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleClear = () => {
-    setDiscipline(null);
-    setError(null);
-  };
+  const { discipline, loading, error, searchById, clear } = useDisciplineSearch();
 
   return (
     <div className="discipline-search">
       <div className="search-section">
         <h2>Buscar Disciplina por ID</h2>
         <SearchById
-          onSearch={handleSearch}
-          isLoading={isLoading}
+          onSearch={searchById}
+          isLoading={loading}
           placeholder="Digite o ID da disciplina"
           label="ID da Disciplina"
         />
@@ -134,7 +108,7 @@ const DisciplineSearchById: React.FC = () => {
         <DisciplineSearchResult
           discipline={discipline}
           error={error}
-          onClear={handleClear}
+          onClear={clear}
         />
       </div>
     </div>

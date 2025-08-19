@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StudentResponse } from '../types/Student';
-import { studentService } from '../service/StudentService';
 import { useAuth } from '../hooks/useAuth';
+import useStudentSearch from '../hooks/useStudentSearch';
 import SearchById from './SearchById';
 
 interface StudentSearchResultProps {
@@ -82,30 +82,7 @@ const StudentSearchResult: React.FC<StudentSearchResultProps> = ({ student, erro
 
 const StudentSearchById: React.FC = () => {
   const { user } = useAuth();
-  const [student, setStudent] = useState<StudentResponse | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSearch = async (id: number) => {
-    setIsLoading(true);
-    setError(null);
-    setStudent(null);
-
-    try {
-      const result = await studentService.getById(id);
-      setStudent(result);
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Erro ao buscar estudante';
-      setError(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleClear = () => {
-    setStudent(null);
-    setError(null);
-  };
+  const { student, loading, error, searchById, clear } = useStudentSearch();
 
   return (
     <div className="student-search-by-id">
@@ -133,8 +110,8 @@ const StudentSearchById: React.FC = () => {
         </div>
 
         <SearchById
-          onSearch={handleSearch}
-          isLoading={isLoading}
+          onSearch={searchById}
+          isLoading={loading}
           placeholder="Ex: 1, 2, 3..."
           label="ID do Estudante"
         />
@@ -143,7 +120,7 @@ const StudentSearchById: React.FC = () => {
       <StudentSearchResult 
         student={student}
         error={error}
-        onClear={handleClear}
+        onClear={clear}
       />
     </div>
   );

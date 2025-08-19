@@ -1,66 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { registrationService } from '../service/RegistrationService';
 import { RegistrationResponse } from '../types/Registration';
 import RoleBasedAccess from './RoleBasedAccess';
+import useRegistrations from '../hooks/useRegistrations';
+import useModal from '../hooks/useModal';
 
 interface RegistrationListProps {
   refreshTrigger?: number;
 }
 
 const RegistrationList: React.FC<RegistrationListProps> = ({ refreshTrigger }) => {
-  const [registrations, setRegistrations] = useState<RegistrationResponse[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-  const [totalElements, setTotalElements] = useState(0);
+  const {
+    registrations,
+    loading,
+    error,
+    currentPage,
+    totalPages,
+    totalElements,
+    deleteRegistration,
+    updateNotes,
+    changePage,
+    refresh,
+    clearError
+  } = useRegistrations();
+
+  const notasModal = useModal();
   const [selectedRegistration, setSelectedRegistration] = useState<RegistrationResponse | null>(null);
-  const [showNotasModal, setShowNotasModal] = useState(false);
   const [notas, setNotas] = useState({ nota1: '', nota2: '' });
   const [updatingNotas, setUpdatingNotas] = useState(false);
 
-  const pageSize = 10;
-
   useEffect(() => {
-    const loadRegistrations = async () => {
-      try {
-        setLoading(true);
-        const response = await registrationService.list(currentPage, pageSize);
-        setRegistrations(response.content);
-        setTotalPages(response.totalPages);
-        setTotalElements(response.totalElements);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Erro ao carregar matrículas');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadRegistrations();
-  }, [currentPage, refreshTrigger]);
-
-  const refreshRegistrations = async () => {
-    try {
-      setLoading(true);
-      const response = await registrationService.list(currentPage, pageSize);
-      setRegistrations(response.content);
-      setTotalPages(response.totalPages);
-      setTotalElements(response.totalElements);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao carregar matrículas');
-    } finally {
-      setLoading(false);
+    if (refreshTrigger !== undefined) {
+      refresh();
     }
-  };
+  }, [refreshTrigger, refresh]);
 
   const handleDelete = async (id: number) => {
     if (window.confirm('Tem certeza que deseja excluir esta matrícula?')) {
-      try {
-        await registrationService.delete(id);
-        refreshRegistrations();
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Erro ao excluir matrícula');
-      }
+      await deleteRegistration(id);
     }
   };
 
@@ -70,44 +46,22 @@ const RegistrationList: React.FC<RegistrationListProps> = ({ refreshTrigger }) =
       nota1: registration.nota1?.toString() || '',
       nota2: registration.nota2?.toString() || ''
     });
-    setError(null); 
-    setShowNotasModal(true);
+    clearError();
+    notasModal.open();
   };
 
   const submitNotas = async () => {
     if (!selectedRegistration) return;
 
     setUpdatingNotas(true);
-    try {
-      const notasData: { nota1?: number; nota2?: number } = {};
-
-      if (notas.nota1 !== '') {
-        const nota1 = parseFloat(notas.nota1);
-        if (isNaN(nota1) || nota1 < 0 || nota1 > 10) {
-          setError('Nota 1 deve ser um número entre 0 e 10');
-          return;
-        }
-        notasData.nota1 = nota1;
-      }
-      
-      if (notas.nota2 !== '') {
-        const nota2 = parseFloat(notas.nota2);
-        if (isNaN(nota2) || nota2 < 0 || nota2 > 10) {
-          setError('Nota 2 deve ser um número entre 0 e 10');
-          return;
-        }
-        notasData.nota2 = nota2;
-      }
-
-      await registrationService.updateNotas(selectedRegistration.id, notasData);
-      setShowNotasModal(false);
-      setError(null); 
-      refreshRegistrations();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao atualizar notas');
-    } finally {
-      setUpdatingNotas(false);
+    const success = await updateNotes(selectedRegistration.id, notas);
+    
+    if (success) {
+      notasModal.close();
+      setSelectedRegistration(null);
     }
+    
+    setUpdatingNotas(false);
   };
 
   const formatDate = (dateString: string) => {
@@ -149,7 +103,7 @@ const RegistrationList: React.FC<RegistrationListProps> = ({ refreshTrigger }) =
     return (
       <div className="error-container">
         <p className="error-message">{error}</p>
-        <button onClick={refreshRegistrations} className="btn-retry">
+        <button onClick={refresh} className="btn-retry">
           Tentar novamente
         </button>
       </div>
@@ -198,7 +152,9 @@ const RegistrationList: React.FC<RegistrationListProps> = ({ refreshTrigger }) =
                     <td>
                       <div className="discipline-info">
                         <strong>{registration.disciplina.nome}</strong>
-                        <span className="carga-horaria">{registration.disciplina.cargaHoraria}h</span>
+                        {registration.disciplina.cargaHoraria && (
+                          <span className="carga-horaria">{registration.disciplina.cargaHoraria}h</span>
+                        )}
                       </div>
                     </td>
                     <td>{registration.nota1 ?? '-'}</td>
@@ -237,7 +193,7 @@ const RegistrationList: React.FC<RegistrationListProps> = ({ refreshTrigger }) =
           {totalPages > 1 && (
             <div className="pagination">
               <button
-                onClick={() => setCurrentPage(prev => Math.max(0, prev - 1))}
+                onClick={() => changePage(currentPage - 1)}
                 disabled={currentPage === 0}
                 className="pagination-btn"
               >
@@ -249,7 +205,7 @@ const RegistrationList: React.FC<RegistrationListProps> = ({ refreshTrigger }) =
               </span>
               
               <button
-                onClick={() => setCurrentPage(prev => Math.min(totalPages - 1, prev + 1))}
+                onClick={() => changePage(currentPage + 1)}
                 disabled={currentPage >= totalPages - 1}
                 className="pagination-btn"
               >
@@ -260,14 +216,13 @@ const RegistrationList: React.FC<RegistrationListProps> = ({ refreshTrigger }) =
         </>
       )}
 
-      {/* Modal para atualizar notas */}
-      {showNotasModal && selectedRegistration && (
+      {notasModal.isOpen && selectedRegistration && (
         <div className="modal-overlay">
           <div className="modal-content">
             <div className="modal-header">
               <h3>Atualizar Notas</h3>
               <button 
-                onClick={() => setShowNotasModal(false)}
+                onClick={notasModal.close}
                 className="modal-close"
               >
                 ×
@@ -295,7 +250,7 @@ const RegistrationList: React.FC<RegistrationListProps> = ({ refreshTrigger }) =
                   value={notas.nota1}
                   onChange={(e) => {
                     setNotas(prev => ({ ...prev, nota1: e.target.value }));
-                    if (error) setError(null); 
+                    if (error) clearError();
                   }}
                   disabled={updatingNotas}
                 />
@@ -312,7 +267,7 @@ const RegistrationList: React.FC<RegistrationListProps> = ({ refreshTrigger }) =
                   value={notas.nota2}
                   onChange={(e) => {
                     setNotas(prev => ({ ...prev, nota2: e.target.value }));
-                    if (error) setError(null); 
+                    if (error) clearError();
                   }}
                   disabled={updatingNotas}
                 />
@@ -321,7 +276,7 @@ const RegistrationList: React.FC<RegistrationListProps> = ({ refreshTrigger }) =
             
             <div className="modal-footer">
               <button
-                onClick={() => setShowNotasModal(false)}
+                onClick={notasModal.close}
                 className="btn-secondary"
                 disabled={updatingNotas}
               >

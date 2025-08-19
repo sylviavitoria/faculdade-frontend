@@ -1,29 +1,9 @@
-import { useState, useEffect } from 'react';
-import { studentService } from '../service/StudentService';
+import React from 'react';
 import { StudentResponse } from '../types/Student';
+import useProfile from '../hooks/useProfile';
 
 const StudentProfile = () => {
-  const [studentData, setStudentData] = useState<StudentResponse | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchStudentProfile = async () => {
-      try {
-        setLoading(true);
-        const data = await studentService.getMe();
-        setStudentData(data);
-        setError(null);
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Erro ao carregar dados do perfil';
-        setError(errorMessage);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStudentProfile();
-  }, []);
+  const { profileData, loading, error } = useProfile();
 
   if (loading) {
     return (
@@ -41,6 +21,8 @@ const StudentProfile = () => {
       </div>
     );
   }
+
+  const studentData = profileData as StudentResponse;
 
   return (
     <div className="student-profile">

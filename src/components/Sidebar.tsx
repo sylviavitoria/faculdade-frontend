@@ -33,9 +33,6 @@ const Sidebar = ({ isOpen = false, onClose }: SidebarProps) => {
     { path: '/professores', label: 'Professores', icon: 'fa-chalkboard-teacher' },
     { path: '/disciplinas', label: 'Disciplinas', icon: 'fa-book' },
     { path: '/matriculas', label: 'Matrículas', icon: 'fa-clipboard-list' },
-    { path: '/notas', label: 'Notas', icon: 'fa-star' },
-    { path: '/relatorios', label: 'Relatórios', icon: 'fa-chart-bar' },
-    { path: '/logout', label: 'Logs do Sistema', icon: 'fa-sign-out-alt' }
   ];
 
   return (

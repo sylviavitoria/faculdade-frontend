@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { studentService } from '../service/StudentService';
-import { StudentResponse, PageResponse } from '../types/Student';
+import { useEffect } from 'react';
+import { StudentResponse } from '../types/Student';
 import { useAuth } from '../hooks/useAuth';
+import useStudents from '../hooks/useStudents';
 import './style/Tables.css';
 
 interface StudentListProps {
@@ -11,52 +11,34 @@ interface StudentListProps {
 
 const StudentList = ({ onEdit, refreshTrigger }: StudentListProps) => {
   const { user } = useAuth();
-  const [students, setStudents] = useState<StudentResponse[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>('');
-  const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-  const [totalElements, setTotalElements] = useState(0);
-  const pageSize = 10;
-
-  const loadStudents = async (page = 0) => {
-    setLoading(true);
-    setError('');
-
-    try {
-      const response: PageResponse<StudentResponse> = await studentService.list(page, pageSize);
-      setStudents(response.content);
-      setCurrentPage(response.pageable.pageNumber);
-      setTotalPages(response.totalPages);
-      setTotalElements(response.totalElements);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao carregar alunos');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    students,
+    loading,
+    error,
+    currentPage,
+    totalPages,
+    totalElements,
+    deleteStudent,
+    changePage,
+    refresh
+  } = useStudents();
 
   useEffect(() => {
-    loadStudents();
-  }, [refreshTrigger]);
+    if (refreshTrigger !== undefined) {
+      refresh();
+    }
+  }, [refreshTrigger, refresh]);
 
   const handleDelete = async (id: number, nome: string) => {
     if (!window.confirm(`Tem certeza que deseja deletar o aluno ${nome}?`)) {
       return;
     }
 
-    try {
-      await studentService.delete(id);
-      loadStudents(currentPage);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao deletar aluno');
-    }
+    await deleteStudent(id);
   };
 
   const handlePageChange = (newPage: number) => {
-    if (newPage >= 0 && newPage < totalPages) {
-      loadStudents(newPage);
-    }
+    changePage(newPage);
   };
 
   if (loading) {
