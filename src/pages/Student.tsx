@@ -27,16 +27,15 @@ const Student = () => {
 
   if (user?.role === 'ROLE_ALUNO') {
     return (
-      <div className="content">
+      <div className="student-page">
         <StudentProfile />
       </div>
     );
   }
 
   return (
-    <>
-      <div className="content">
-        <RoleBasedAccess 
+    <div className="student-page">
+      <RoleBasedAccess 
           allowedRoles={['ROLE_ADMIN', 'ROLE_PROFESSOR']}
           fallback={
             <div className="access-denied">
@@ -54,16 +53,15 @@ const Student = () => {
             </div>
           }
         >
-          <div className="student-management">
-            <div className="page-header">
-              <h1>Gerenciamento de Alunos</h1>
-              <p>
-                {user?.role === 'ROLE_ADMIN' 
-                  ? 'Cadastre e gerencie alunos do sistema' 
-                  : 'Visualize informações dos alunos'
-                }
-              </p>
-            </div>
+          <div className="page-header">
+            <h1>Gerenciamento de Alunos</h1>
+            <p>
+              {user?.role === 'ROLE_ADMIN' 
+                ? 'Cadastre e gerencie alunos do sistema' 
+                : 'Visualize informações dos alunos'
+              }
+            </p>
+          </div>
 
             <div className="tab-navigation">
               <button 
@@ -116,10 +114,8 @@ const Student = () => {
                 />
               )}
             </div>
-          </div>
         </RoleBasedAccess>
-      </div>
-    </>
+    </div>
   );
 };
 

@@ -27,16 +27,15 @@ const Teacher = () => {
 
   if (user?.role === 'ROLE_PROFESSOR') {
     return (
-      <div className="content">
+      <div className="student-page">
         <TeacherProfile />
       </div>
     );
   }
 
   return (
-    <>
-      <div className="content">
-        <RoleBasedAccess 
+    <div className="student-page">
+      <RoleBasedAccess 
           allowedRoles={['ROLE_ADMIN']}
           fallback={
             <div className="access-denied">
@@ -54,11 +53,10 @@ const Teacher = () => {
             </div>
           }
         >
-          <div className="teacher-management">
-            <div className="page-header">
-              <h1>Gerenciamento de Professores</h1>
-              <p>Cadastre e gerencie professores do sistema</p>
-            </div>
+          <div className="page-header">
+            <h1>Gerenciamento de Professores</h1>
+            <p>Cadastre e gerencie professores do sistema</p>
+          </div>
 
             <div className="tab-navigation">
               <button 
@@ -109,10 +107,8 @@ const Teacher = () => {
                 />
               )}
             </div>
-          </div>
         </RoleBasedAccess>
-      </div>
-    </>
+    </div>
   );
 };
 
