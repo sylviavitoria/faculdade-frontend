@@ -6,7 +6,7 @@ import TeacherSearchById from '../components/TeacherSearchById';
 import RoleBasedAccess from '../components/RoleBasedAccess';
 import { useAuth } from '../hooks/useAuth';
 import { TeacherResponse } from '../types/Teacher';
-import './Teacher.css';
+import '../pages/style/Teacher.css';
 
 const Teacher = () => {
   const { user } = useAuth();

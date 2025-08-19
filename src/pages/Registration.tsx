@@ -1,7 +1,7 @@
 import React from 'react';
 import Banner from '../components/Banner';
 import RegistrationSearchById from '../components/RegistrationSearchById';
-import './Registration.css';
+import '../pages/style/Registration.css';
 
 const Registration: React.FC = () => {
   return (

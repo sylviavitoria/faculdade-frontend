@@ -8,7 +8,7 @@ import CreateEntity from '../components/generic/CreateEntity';
 import DisciplineForm from '../components/form/DisciplineForm';
 import DisciplineSearchById from '../components/DisciplineSearchById';
 import RoleBasedAccess from '../components/RoleBasedAccess';
-import './Student.css';
+import './style/Student.css';
 
 
 interface DisciplineListProps {
