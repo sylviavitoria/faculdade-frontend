@@ -4,6 +4,7 @@ import GenericForm from './GenericForm';
 interface FormErrors {
   nome?: string;
   codigo?: string;
+  cargaHoraria?: string;
   professorId?: string;
   form?: string;
 }
@@ -12,6 +13,7 @@ interface DisciplineFormProps {
   formData: {
     nome: string;
     codigo: string;
+    cargaHoraria?: number | '';
     professorId?: number;
     id?: number;
   };
@@ -43,6 +45,12 @@ const DisciplineForm = ({
       label: 'Código',
       type: 'text' as const,
       help: 'Código único da disciplina (ex: ALG101)'
+    },
+    {
+      name: 'cargaHoraria',
+      label: 'Carga Horária',
+      type: 'text' as const,
+      help: 'Carga horária em horas (ex: 60, 80, 120)'
     },
     {
       name: 'professorId',

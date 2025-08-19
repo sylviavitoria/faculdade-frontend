@@ -66,7 +66,7 @@ const RegistrationForm = ({
         { value: '', label: 'Selecione uma disciplina' },
         ...disciplines.map(discipline => ({
           value: discipline.id,
-          label: `${discipline.nome} (${discipline.cargaHoraria}h)`
+          label: `${discipline.nome}${discipline.cargaHoraria ? ` (${discipline.cargaHoraria}h)` : ''}`
         }))
       ]
     }
