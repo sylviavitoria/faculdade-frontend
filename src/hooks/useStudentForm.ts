@@ -85,7 +85,6 @@ const useStudentForm = () => {
       let result;
       if (formData.id) {
         result = await studentService.update(formData.id, formData);
-        console.log('Aluno atualizado com sucesso:', result);
       } else {
         result = await studentService.create(formData);
         console.log('Aluno criado com sucesso:', result);

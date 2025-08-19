@@ -44,6 +44,7 @@ const useRegistrationForm = () => {
       ]);
       setStudents(studentsResponse.content);
       setDisciplines(disciplinesResponse.content);
+      
     } catch (error) {
       console.error('Erro ao carregar opções:', error);
       setErrors({ form: 'Erro ao carregar dados necessários' });

@@ -4,6 +4,7 @@ import { disciplineService } from '../service/DisciplineService';
 interface DisciplineFormData {
   nome: string;
   codigo: string;
+  cargaHoraria?: number | '';
   professorId?: number;
   id?: number;
 }
@@ -11,6 +12,7 @@ interface DisciplineFormData {
 interface FormErrors {
   nome?: string;
   codigo?: string;
+  cargaHoraria?: string;
   professorId?: string;
   form?: string;
 }
@@ -19,6 +21,7 @@ const useDisciplineForm = () => {
   const [formData, setFormData] = useState<DisciplineFormData>({
     nome: '',
     codigo: '',
+    cargaHoraria: '',
     professorId: undefined
   });
 
@@ -37,6 +40,13 @@ const useDisciplineForm = () => {
       newErrors.codigo = 'Código é obrigatório';
     }
 
+    if (formData.cargaHoraria && formData.cargaHoraria !== '') {
+      const cargaHorariaNum = Number(formData.cargaHoraria);
+      if (isNaN(cargaHorariaNum) || cargaHorariaNum <= 0) {
+        newErrors.cargaHoraria = 'Carga horária deve ser um número positivo';
+      }
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -46,7 +56,11 @@ const useDisciplineForm = () => {
     
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'professorId' ? (value ? Number(value) : undefined) : value
+      [name]: name === 'professorId' 
+        ? (value ? Number(value) : undefined) 
+        : name === 'cargaHoraria'
+        ? value === '' ? '' : Number(value)
+        : value
     }));
 
     if (errors[name as keyof FormErrors]) {
@@ -71,11 +85,8 @@ const useDisciplineForm = () => {
       let result;
       
       if (formData.id) {
-        console.log('Atualizando disciplina com ID:', formData.id);
         result = await disciplineService.update(formData.id, formData);
-        console.log('Resultado da atualização:', result);
       } else {
-        console.log('Criando nova disciplina:', formData);
         result = await disciplineService.create(formData);
         console.log('Resultado da criação:', result);
       }
@@ -87,6 +98,7 @@ const useDisciplineForm = () => {
         setFormData({
           nome: '',
           codigo: '',
+          cargaHoraria: '',
           professorId: undefined
         });
       }, 3000);

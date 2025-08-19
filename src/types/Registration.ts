@@ -15,7 +15,7 @@ export interface RegistrationResponse {
   disciplina: {
     id: number;
     nome: string;
-    cargaHoraria: number;
+    cargaHoraria?: number;
   };
   nota1?: number;
   nota2?: number;

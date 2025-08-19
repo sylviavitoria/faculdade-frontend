@@ -1,6 +1,7 @@
 export interface Discipline {
   nome: string;
   codigo: string;
+  cargaHoraria?: number;
   professorId?: number;
   id?: number;
 }
@@ -9,6 +10,7 @@ export interface DisciplineResponse {
   id: number;
   nome: string;
   codigo: string;
+  cargaHoraria: number;
   professor?: {
     id: number;
     nome: string;

@@ -39,17 +39,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setIsLoading(true);
     try {
       const response = await AuthService.login({ email, senha });
-      console.log('Resposta completa do login:', response);
       
       AuthService.saveTokens(response);
       setToken(response.accessToken);
       setUser(response.usuario);
-      
-      console.log('Login realizado com sucesso no contexto:', { 
-        user: response.usuario,
-        token: response.accessToken ? 'Token presente' : 'Token ausente',
-        userSet: response.usuario ? 'Usuário definido' : 'Usuário indefinido'
-      });
+
     } catch (error) {
       console.error('Erro no login (contexto):', error);
       throw error;

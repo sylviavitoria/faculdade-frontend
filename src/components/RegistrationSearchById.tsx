@@ -170,7 +170,9 @@ const RegistrationSearchById: React.FC = () => {
                     </div>
                     <div className="detail-item">
                       <span className="label">Carga Horária:</span>
-                      <span className="value">{registration.disciplina.cargaHoraria}h</span>
+                      <span className="value">
+                        {registration.disciplina.cargaHoraria ? `${registration.disciplina.cargaHoraria}h` : 'Não informado'}
+                      </span>
                     </div>
                   </div>
                 </div>

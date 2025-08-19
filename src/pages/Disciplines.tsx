@@ -158,7 +158,6 @@ const Disciplines: React.FC = () => {
   }, [isSubmitted, currentPage]);
 
   const handleEdit = (discipline: DisciplineResponse) => {
-    console.log('Editando disciplina:', discipline);
     setEditingDiscipline(discipline);
     setFormData({
       id: discipline.id,
@@ -177,7 +176,6 @@ const Disciplines: React.FC = () => {
 
     if (window.confirm('Tem certeza que deseja excluir esta disciplina?')) {
       try {
-        console.log('Excluindo disciplina com ID:', id);
         await disciplineService.delete(id);
         await loadDisciplines(currentPage);
       } catch (error) {
