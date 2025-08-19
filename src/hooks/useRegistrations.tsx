@@ -67,7 +67,7 @@ export const useRegistrations = (options: UseRegistrationsOptions = {}) => {
         notasData.nota2 = nota2;
       }
 
-      await registrationService.updateNotes(id, notasData);
+      await registrationService.updateNotas(id, notasData);
       await loadRegistrations(currentPage);
       return true;
     } catch (err) {
