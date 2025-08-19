@@ -93,3 +93,58 @@ body {
   10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
   20%, 40%, 60%, 80% { transform: translateX(5px); }
 }
+
+.access-denied {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  padding: 2rem;
+}
+
+.access-denied-card {
+  background: white;
+  border-radius: 12px;
+  padding: 3rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border);
+  max-width: 500px;
+  animation: fadeIn 0.3s ease;
+}
+
+.access-denied-card i {
+  font-size: 4rem;
+  color: #f39c12;
+  margin-bottom: 1.5rem;
+}
+
+.access-denied-card h3 {
+  color: var(--text);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.access-denied-card p {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.user-info-card {
+  background: var(--secondary);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  border-left: 4px solid var(--primary);
+}
+
+.user-info-card p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.user-info-card strong {
+  color: var(--primary);
+}
