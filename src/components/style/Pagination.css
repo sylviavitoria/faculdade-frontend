@@ -1,0 +1,34 @@
+.paginacao {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.paginacao button {
+  margin-top: 0;
+}
+
+.carregando {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.1rem;
+  color: var(--text-light);
+}
+
+.aviso-vazio {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: var(--text-light);
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+@media (max-width: 768px) {
+  .paginacao {
+    flex-wrap: wrap;
+  }
+}
