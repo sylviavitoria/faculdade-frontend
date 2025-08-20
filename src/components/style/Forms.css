@@ -1,0 +1,123 @@
+.success-message {
+  background-color: var(--success);
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  text-align: center;
+  animation: fadeIn 0.5s;
+}
+
+.error-message {
+  background-color: var(--error);
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  text-align: center;
+  animation: fadeIn 0.5s;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1.1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background-color: #f9fafb;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(77, 123, 240, 0.2);
+}
+
+.form-group .input-error {
+  border-color: var(--error);
+}
+
+.form-group .input-error:focus {
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+}
+
+.form-group .error-text {
+  color: var(--error);
+  font-size: 0.95rem;
+  margin-top: 8px;
+  animation: shake 0.5s;
+}
+
+.required {
+  color: var(--error);
+  margin-left: 4px;
+}
+
+button[type="submit"] {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 16px 30px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+  width: 100%;
+  margin-top: 20px;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+button[type="submit"]:disabled {
+  background-color: #888888;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.form-help {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-top: 8px;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding: 12px;
+  }
+  
+  button[type="submit"] {
+    padding: 14px 20px;
+  }
+}
