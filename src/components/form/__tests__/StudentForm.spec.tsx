@@ -35,7 +35,7 @@ describe('StudentForm', () => {
         render(<StudentForm {...defaultProps} />);
 
         const nomeInput = screen.getByLabelText(/Nome/i);
-        fireEvent.change(nomeInput, { target: { value: 'Alice' } });
+        fireEvent.change(nomeInput, { target: { value: 'Maria' } });
 
         expect(mockOnChange).toHaveBeenCalled();
     });
