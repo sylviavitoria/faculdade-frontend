@@ -211,7 +211,6 @@ O projeto utiliza **Jest** e **React Testing Library** para testes abrangentes:
 ### 🚀 Scripts de Teste
 ```bash
 npm run test           # Executa todos os testes
-npm run test:watch     # Executa testes em modo watch
 npm run test:coverage  # Gera relatório de cobertura
 ```
 ---
