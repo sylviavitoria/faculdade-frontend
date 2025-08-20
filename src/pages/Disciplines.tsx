@@ -58,17 +58,17 @@ const DisciplineList: React.FC<DisciplineListProps> = ({
                         <div className="action-buttons">
                           <button
                             onClick={() => onEdit(discipline)}
-                            className="btn btn-edit"
-                            title="Editar"
+                            className="btn-edit"
+                            title="Editar disciplina"
                           >
-                            ✏️
+                            <i className="fas fa-edit"></i>
                           </button>
                           <button
                             onClick={() => onDelete(discipline.id)}
-                            className="btn btn-delete"
-                            title="Excluir"
+                            className="btn-delete"
+                            title="Deletar disciplina"
                           >
-                            🗑️
+                            <i className="fas fa-trash"></i>
                           </button>
                         </div>
                       </td>

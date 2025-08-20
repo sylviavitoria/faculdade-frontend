@@ -39,7 +39,7 @@ const Registration: React.FC = () => {
 
   useEffect(() => {
     const getDefaultContent = () => {
-      if (user?.role === 'ROLE_ALUNO' || user?.role === 'ROLE_PROFESSOR') {
+      if (user?.role === 'ROLE_ALUNO') {
         return 'search';
       }
       return 'list';
@@ -54,13 +54,13 @@ const Registration: React.FC = () => {
         <h1>Gerenciamento de Matrículas</h1>
         <p>
           {user?.role === 'ROLE_ALUNO' && 'Consulte suas matrículas por ID'}
-          {user?.role === 'ROLE_PROFESSOR' && 'Consulte matrículas por ID'}
+          {user?.role === 'ROLE_PROFESSOR' && 'Gerencie matrículas: visualize, consulte e atualize notas'}
           {user?.role === 'ROLE_ADMIN' && 'Administre matrículas: crie, visualize, atualize notas e exclua'}
         </p>
       </div>
 
       <div className="tab-navigation">
-        <RoleBasedAccess allowedRoles={['ROLE_ADMIN']}>
+        <RoleBasedAccess allowedRoles={['ROLE_ADMIN', 'ROLE_PROFESSOR']}>
           <button
             className={`tab-btn ${activeTab === 'list' ? 'active' : ''}`}
             onClick={() => handleTabChange('list')}
@@ -89,7 +89,7 @@ const Registration: React.FC = () => {
       <div className="tab-content">
         {activeTab === 'list' && (
           <RoleBasedAccess
-            allowedRoles={['ROLE_ADMIN']}
+            allowedRoles={['ROLE_ADMIN', 'ROLE_PROFESSOR']}
             fallback={
               <div className="access-denied">
                 <p>Você não tem permissão para ver a lista de matrículas.</p>
