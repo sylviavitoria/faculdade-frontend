@@ -80,7 +80,7 @@ const GenericForm = ({
         </div>
       ))}
 
-      <button type="submit" disabled={isSubmitting}>
+      <button type="submit" id="btn-cadastrar" className="btn btn-primary" disabled={isSubmitting}>
         {isSubmitting ? submitLabel.submitting : submitLabel.idle}
       </button>
     </form>
