@@ -94,6 +94,7 @@ const RegistrationSearchById: React.FC = () => {
             <button 
               type="submit" 
               className="btn-search"
+              id="btn-buscar"
               disabled={loading || !searchId.trim()}
             >
               {loading ? (

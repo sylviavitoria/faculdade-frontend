@@ -82,6 +82,7 @@ const Teacher = () => {
               <button 
                 className={`tab-btn ${activeTab === 'create' ? 'active' : ''}`}
                 onClick={() => setActiveTab('create')}
+                id="tab-create"
               >
                 <i className="fas fa-plus"></i>
                 {editingTeacher ? 'Editar Professor' : 'Cadastrar Professor'}

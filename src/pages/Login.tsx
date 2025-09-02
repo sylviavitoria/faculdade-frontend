@@ -17,6 +17,12 @@ const Login: React.FC = () => {
     setError('');
     setIsLoading(true);
 
+    if (!email || !senha) {
+    setError('Erro ao fazer login') 
+    setIsLoading(false)
+    return
+  }
+
     try {
       await login(email, senha);
       navigate('/');
@@ -47,7 +53,6 @@ const Login: React.FC = () => {
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
                 disabled={isLoading}
                 placeholder="Digite seu e-mail"
               />
@@ -60,7 +65,6 @@ const Login: React.FC = () => {
                 id="senha"
                 value={senha}
                 onChange={(e) => setSenha(e.target.value)}
-                required
                 disabled={isLoading}
                 placeholder="Digite sua senha"
               />

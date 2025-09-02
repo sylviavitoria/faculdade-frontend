@@ -209,6 +209,7 @@ const Disciplines: React.FC = () => {
         <button
           className={`tab-btn ${activeTab === 'list' ? 'active' : ''}`}
           onClick={() => handleTabChange('list')}
+          id="tab-list"
         >
           Lista de Disciplinas
         </button>
@@ -216,6 +217,7 @@ const Disciplines: React.FC = () => {
           <button
             className={`tab-btn ${activeTab === 'create' ? 'active' : ''}`}
             onClick={() => handleTabChange('create')}
+            id="tab-create"
           >
             {editingDiscipline ? 'Editar Disciplina' : 'Cadastrar Disciplina'}
           </button>
@@ -223,6 +225,7 @@ const Disciplines: React.FC = () => {
         <button
           className={`tab-btn ${activeTab === 'search' ? 'active' : ''}`}
           onClick={() => handleTabChange('search')}
+          id="tab-search"
         >
           Buscar por ID
         </button>

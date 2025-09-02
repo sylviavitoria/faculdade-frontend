@@ -64,6 +64,7 @@ const Registration: React.FC = () => {
           <button
             className={`tab-btn ${activeTab === 'list' ? 'active' : ''}`}
             onClick={() => handleTabChange('list')}
+            id="tab-list"
           >
             Lista de Matrículas
           </button>
@@ -73,6 +74,7 @@ const Registration: React.FC = () => {
           <button
             className={`tab-btn ${activeTab === 'create' ? 'active' : ''}`}
             onClick={() => handleTabChange('create')}
+            id="tab-create"
           >
             Nova Matrícula
           </button>
@@ -81,6 +83,7 @@ const Registration: React.FC = () => {
         <button
           className={`tab-btn ${activeTab === 'search' ? 'active' : ''}`}
           onClick={() => handleTabChange('search')}
+          id="tab-search"
         >
           Buscar por ID
         </button>
