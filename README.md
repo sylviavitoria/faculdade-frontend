@@ -261,3 +261,11 @@ Este projeto frontend consome a **API REST** desenvolvida em **Spring Boot** par
   - Logs do sistema (MongoDB)
   
 > ⚠️ Para funcionalidade completa, configure e execute o backend antes de rodar o frontend.
+
+
+## 🧪 Testes Automatizados com Cypress
+
+Este frontend possui **testes automatizados com Cypress**, que validam os principais fluxos.  
+
+Os testes garantem a qualidade e a confiabilidade, cobrindo cenários de sucesso e falha.
+- A automação com Cypress está disponível em: [CypressFaculdade](https://github.com/sylviavitoria/CypressFaculdade)  
