@@ -262,6 +262,7 @@ Este projeto frontend consome a **API REST** desenvolvida em **Spring Boot** par
   
 > ⚠️ Para funcionalidade completa, configure e execute o backend antes de rodar o frontend.
 
+---
 
 ## 🧪 Testes Automatizados com Cypress
 
