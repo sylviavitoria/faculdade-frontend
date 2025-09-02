@@ -43,7 +43,6 @@ describe('DisciplineForm', () => {
 
         expect(screen.getByLabelText(/Nome da Disciplina:/)).toBeInTheDocument();
         expect(screen.getByLabelText(/Código:/)).toBeInTheDocument();
-        expect(screen.getByLabelText(/Carga Horária:/)).toBeInTheDocument();
         expect(screen.getByLabelText(/Professor Responsável:/)).toBeInTheDocument();
 
         expect(screen.getByRole('button', { name: 'Disciplina Criada' })).toBeInTheDocument();
@@ -64,7 +63,7 @@ describe('DisciplineForm', () => {
         const options = screen.getAllByRole('option');
         expect(options).toHaveLength(4); 
         expect(options[0]).toHaveTextContent('Select');
-        expect(options[1]).toHaveTextContent('Selecione um professor (opcional)');
+        expect(options[1]).toHaveTextContent('Selecione um professor');
         expect(options[2]).toHaveTextContent('Prof. João');
         expect(options[3]).toHaveTextContent('Prof. Maria');
     });
@@ -134,7 +133,6 @@ describe('DisciplineForm', () => {
 
         expect(screen.getByLabelText(/Nome da Disciplina:/)).toBeDisabled();
         expect(screen.getByLabelText(/Código:/)).toBeDisabled();
-        expect(screen.getByLabelText(/Carga Horária:/)).toBeDisabled();
         expect(screen.getByLabelText(/Professor Responsável:/)).toBeDisabled();
 
         const button = screen.getByRole('button', { name: 'Criando...' });

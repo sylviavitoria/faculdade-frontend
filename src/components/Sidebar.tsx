@@ -48,7 +48,14 @@ const Sidebar = ({ isOpen = false, onClose }: SidebarProps) => {
         <nav className="sidebar-nav">
           <ul className="sidebar-menu">
             {menuItems.map((item) => (
-              <li key={item.path} className={location.pathname === item.path ? 'active' : ''}>
+              <li
+                key={item.path}
+                className={location.pathname === item.path ? 'active' : ''}
+                id={item.label === 'Alunos' ? 'menu-alunos' : 
+                   item.label === 'Professores' ? 'menu-professores' : 
+                   item.label === 'Disciplinas' ? 'menu-disciplinas' : 
+                   item.label === 'Matrículas' ? 'menu-matriculas' : undefined}
+              >
                 <Link to={item.path} className="sidebar-link" onClick={handleLinkClick}>
                   <i className={`fas ${item.icon}`}></i>
                   <span>{item.label}</span>

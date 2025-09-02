@@ -47,17 +47,11 @@ const DisciplineForm = ({
       help: 'Código único da disciplina (ex: ALG101)'
     },
     {
-      name: 'cargaHoraria',
-      label: 'Carga Horária',
-      type: 'text' as const,
-      help: 'Carga horária em horas (ex: 60, 80, 120)'
-    },
-    {
       name: 'professorId',
       label: 'Professor Responsável',
       type: 'select' as const,
       options: [
-        { value: '', label: 'Selecione um professor (opcional)' },
+        { value: '', label: 'Selecione um professor' },
         ...professors.map(prof => ({ 
           value: prof.id, 
           label: prof.nome 
